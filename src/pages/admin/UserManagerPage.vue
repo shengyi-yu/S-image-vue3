@@ -124,7 +124,7 @@ const doTableChange = (page: any) => {
 }
 
 const doSearch = () => {
-  searchParams.current = 1,
+  searchParams.current = 1;
   fetchData();
 }
 
