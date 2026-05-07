@@ -75,6 +75,11 @@ const originItems = [
     title: '用户管理',
   },
   {
+    key: '/admin/pictureManage',
+    label: '图片管理',
+    title: '图片管理',
+  },
+  {
     key: '/add_picture',
     label: '创建图片',
     title: '创建图片',
@@ -120,7 +125,7 @@ const doLogout = async() =>{
   const res = await userLogoutUsingPost();
   if(res.data.code === 0){
     loginUserStore.setLoginUser({
-      userNmae: '未登录'
+      userName: '未登录'
     })
     message.success('退出成功');
     router.push("/user/login");

@@ -70,6 +70,11 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
   min-height: 152px;
 }
 
+.picture-upload img{
+  max-width: 100%;
+  max-height: 480px;
+}
+
 .ant-upload-select-picture-card i {
   font-size: 32px;
   color: #999;

@@ -1,19 +1,227 @@
-
-
 <template>
-  <div id="HomePage">
-    HELLO!
+  <div id="homePage">
+    <!-- 搜索框 -->
+    <div class="search-bar">
+      <a-input-search
+        placeholder="从海量图片中搜索"
+        v-model:value="searchParams.searchText"
+        enter-button="搜索"
+        size="large"
+        @search="doSearch"
+      />
+    </div>
+    <!-- 分类 + 标签 -->
+    <a-tabs v-model:activeKey="selectedCategory" @change="doSearch">
+      <a-tab-pane key="all" tab="全部" />
+      <a-tab-pane v-for="category in categoryList" :key="category" :tab="category" />
+    </a-tabs>
+    <div class="tag-bar">
+      <span style="margin-right: 8px">标签：</span>
+      <a-space :size="[0, 8]" wrap>
+        <a-checkable-tag
+          v-for="(tag, index) in tagList"
+          :key="tag"
+          v-model:checked="selectedTagList[index]"
+          @change="doSearch"
+        >
+          {{ tag }}
+        </a-checkable-tag>
+      </a-space>
+    </div>
+
+    <a-list
+      style="width: 100%"
+      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }"
+      :data-source="dataList"
+      :pagination="pagination"
+      :loading="loading"
+    >
+      <template #renderItem="{ item: picture }">
+        <a-list-item style="padding: 0">
+          <a-card hoverable @click="doClickPicture(picture)">
+            <template #cover>
+              <div class="img-wrapper">
+                <img
+                  :alt="picture.name"
+                  :src="picture.url"
+                  style="height: 180px; object-fit: cover"
+                />
+                <div class="img-overlay">
+                  <span class="overlay-title">{{ picture.name }}</span>
+                </div>
+              </div>
+            </template>
+            <a-card-meta :title="picture.name">
+              <template #description>
+                <a-flex>
+                  <a-tag color="green">
+                    {{ picture.category ?? '默认' }}
+                  </a-tag>
+                  <a-tag v-for="tag in picture.tags" :key="tag">
+                    {{ tag }}
+                  </a-tag>
+                </a-flex>
+              </template>
+            </a-card-meta>
+          </a-card>
+        </a-list-item>
+      </template>
+    </a-list>
   </div>
 </template>
 
 <script setup lang="ts">
+import {
+  listPictureTagCategoryUsingGet,
+  listPictureVoByPageUsingPost,
+} from '@/api/pictureController'
+import { message } from 'ant-design-vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { computed, onMounted, reactive, onActivated } from 'vue'
 
+// 数据
+const dataList = ref([])
+const total = ref(0)
+const loading = ref(true)
+const categoryList = ref<string[]>([])
+const selectedCategory = ref<string>('all')
+const tagList = ref<string[]>([])
+const selectedTagList = ref<string[]>([])
+
+// 获取标签和分类选项
+const getTagCategoryOptions = async () => {
+  const res = await listPictureTagCategoryUsingGet()
+  if (res.data.code === 0 && res.data.data) {
+    // 转换成下拉选项组件接受的格式
+    categoryList.value = res.data.data.categoryList ?? []
+    tagList.value = res.data.data.tagList ?? []
+  } else {
+    message.error('加载分类标签失败，' + res.data.message)
+  }
+}
+
+onMounted(() => {
+  getTagCategoryOptions()
+})
+
+const doSearch = () => {
+  // 重置搜索条件
+  searchParams.current = 1
+  fetchData()
+}
+
+// 搜索条件
+const searchParams = reactive<API.PictureQueryRequest>({
+  current: 1,
+  pageSize: 12,
+  sortField: 'createTime',
+  sortOrder: 'descend',
+})
+
+// 分页参数
+const pagination = computed(() => {
+  return {
+    current: searchParams.current ?? 1,
+    pageSize: searchParams.pageSize ?? 10,
+    total: total.value,
+    // 切换页号时，会修改搜索参数并获取数据
+    onChange: (page: number, pageSize: number) => {
+      searchParams.current = page
+      searchParams.pageSize = pageSize
+      fetchData()
+    },
+  }
+})
+
+// 获取数据
+const fetchData = async () => {
+  loading.value = true
+  // 转换搜索参数
+  const params = {
+    ...searchParams,
+    tags: [] as string[],
+  }
+  if (selectedCategory.value !== 'all') {
+    params.category = selectedCategory.value
+  }
+  selectedTagList.value.forEach((useTag, index) => {
+    if (useTag) {
+      params.tags.push(tagList.value[index])
+    }
+  })
+  const res = await listPictureVoByPageUsingPost(params)
+  if (res.data.data) {
+    dataList.value = res.data.data.records ?? []
+    total.value = res.data.data.total ?? 0
+  } else {
+    message.error('获取数据失败，' + res.data.message)
+  }
+  loading.value = false
+}
+
+const router = useRouter()
+
+const doClickPicture = (picture: API.PictureVO) => {
+  router.push({
+    path: `/picture/${picture.id}`,
+  })
+}
+
+// 页面加载时请求一次
+onMounted(() => {
+  getTagCategoryOptions()
+  fetchData()
+})
+
+// 页面被激活（返回、切回来）时重新加载
+onActivated(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>
-#HomePage {
-  text-align: center;
-  font-size: 100px;
+#homePage {
+  margin-bottom: 16px;
 }
 
+#homePage .search-bar {
+  max-width: 480px;
+  margin: 0 auto 16px;
+}
+
+#homePage .tag-bar {
+  margin-bottom: 16px;
+}
+
+#homePage .img-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+#homePage .img-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#homePage .img-wrapper:hover .img-overlay {
+  opacity: 1;
+}
+
+#homePage .overlay-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 12px;
+}
 </style>
