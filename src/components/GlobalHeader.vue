@@ -1,5 +1,5 @@
 <template>
-  <div id="globalHeader">
+  <div id="globalHeader" :class="{ 'is-transparent': props.transparent }">
     <a-row :wrap="false" align="middle">
       <a-col flex="200px">
         <router-link to="/">
@@ -54,8 +54,8 @@
             </div>
             <div v-else>
               <a-space>
-                <a-button href="/user/register">注册</a-button>
-                <a-button type="primary" href="/user/login">登录</a-button>
+                <a-button href="/user/register" class="landing-btn">注册</a-button>
+                <a-button type="primary" href="/user/login" class="landing-btn-primary">登录</a-button>
               </a-space>
             </div>
           </div>
@@ -78,6 +78,11 @@ import { message, type MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
 import { useThemeStore } from '@/stores/useThemeStore'
+
+const props = defineProps<{
+  transparent?: boolean
+}>()
+
 import { userLogoutUsingPost } from '@/api/userController'
 
 const loginUserStore = useLoginUserStore()
@@ -279,5 +284,63 @@ const doLogout = async () => {
 .user-dropdown :deep(.ant-menu-item) {
   border-radius: var(--radius-md);
   margin: 2px 0;
+}
+
+/* ============================================
+   Transparent Mode (Landing Page)
+   ============================================ */
+#globalHeader.is-transparent .title {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#globalHeader.is-transparent .nav-menu :deep(.ant-menu-item) {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+#globalHeader.is-transparent .nav-menu :deep(.ant-menu-item:hover) {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+#globalHeader.is-transparent .nav-menu :deep(.ant-menu-item-selected) {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+#globalHeader.is-transparent .theme-toggle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#globalHeader.is-transparent .theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+#globalHeader.is-transparent .user-name {
+  color: #ffffff;
+}
+
+#globalHeader.is-transparent .user-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Landing page 透明按钮 */
+#globalHeader.is-transparent .landing-btn {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(4px);
+}
+
+#globalHeader.is-transparent .landing-btn:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+#globalHeader.is-transparent .landing-btn-primary {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 2px 12px rgba(97, 175, 239, 0.4);
 }
 </style>
