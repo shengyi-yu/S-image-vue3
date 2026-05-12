@@ -372,6 +372,16 @@ onActivated(() => {
   margin: 0;
 }
 
+/* 列表项 flex 等高 */
+:deep(.ant-list-item) {
+  display: flex;
+  align-items: stretch;
+}
+
+:deep(.ant-list-item .ant-card) {
+  flex: 1;
+}
+
 .img-wrapper {
   position: relative;
   overflow: hidden;
