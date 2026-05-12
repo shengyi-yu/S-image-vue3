@@ -21,32 +21,43 @@
         />
       </a-col>
       <a-col flex="160px">
-        <div class="user-login-status">
-          <div v-if="loginUserStore.loginUser.id">
-            <a-dropdown>
-              <a-space class="user-info">
-                <a-avatar
-                  :size="32"
-                  :src="loginUserStore.loginUser.userAvatar"
-                  class="user-avatar"
-                />
-                <span class="user-name">{{ loginUserStore.loginUser.userName ?? '游客' }}</span>
+        <div class="header-actions">
+          <!-- 主题切换 -->
+          <a-tooltip :title="themeStore.isDark ? '切换亮色' : '切换暗色'">
+            <button class="theme-toggle" @click="themeStore.toggleTheme()">
+              <span v-if="themeStore.isDark">🌙</span>
+              <span v-else>☀️</span>
+            </button>
+          </a-tooltip>
+
+          <!-- 用户状态 -->
+          <div class="user-login-status">
+            <div v-if="loginUserStore.loginUser.id">
+              <a-dropdown>
+                <a-space class="user-info">
+                  <a-avatar
+                    :size="32"
+                    :src="loginUserStore.loginUser.userAvatar"
+                    class="user-avatar"
+                  />
+                  <span class="user-name">{{ loginUserStore.loginUser.userName ?? '游客' }}</span>
+                </a-space>
+                <template #overlay>
+                  <a-menu class="user-dropdown">
+                    <a-menu-item @click="doLogout">
+                      <LogoutOutlined />
+                      <span style="margin-left: 8px">退出登录</span>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </div>
+            <div v-else>
+              <a-space>
+                <a-button href="/user/register">注册</a-button>
+                <a-button type="primary" href="/user/login">登录</a-button>
               </a-space>
-              <template #overlay>
-                <a-menu class="user-dropdown">
-                  <a-menu-item @click="doLogout">
-                    <LogoutOutlined />
-                    <span style="margin-left: 8px">退出登录</span>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </div>
-          <div v-else>
-            <a-space>
-              <a-button href="/user/register">注册</a-button>
-              <a-button type="primary" href="/user/login">登录</a-button>
-            </a-space>
+            </div>
           </div>
         </div>
       </a-col>
@@ -65,10 +76,12 @@ import {
 } from '@ant-design/icons-vue'
 import { message, type MenuProps } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { useLoginUserStore } from '../stores/useLoginUserStore'
+import { useLoginUserStore } from '@/stores/useLoginUserStore'
+import { useThemeStore } from '@/stores/useThemeStore'
 import { userLogoutUsingPost } from '@/api/userController'
 
 const loginUserStore = useLoginUserStore()
+const themeStore = useThemeStore()
 
 // 菜单列表
 const originItems = [
@@ -96,17 +109,12 @@ const originItems = [
     label: '创建图片',
     title: '创建图片',
   },
-  {
-    key: 'others',
-    label: h('a', { href: 'https://laning.com.cn', target: '_blank' }, 'Blog'),
-    title: 'Blog',
-  },
 ]
 
 // 过滤菜单项
 const filterMenus = (menus = [] as MenuProps['items']) => {
   return menus?.filter((menu) => {
-    if (menu?.key?.startsWith('/admin')) {
+    if (menu?.key && String(menu.key).startsWith('/admin')) {
       const loginUser = loginUserStore.loginUser
       if (!loginUser || loginUser.userRole !== 'admin') {
         return false
@@ -203,6 +211,35 @@ const doLogout = async () => {
   background: var(--color-primary-bg);
   color: var(--color-primary);
   font-weight: var(--font-weight-medium);
+}
+
+/* 右侧操作区 */
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+  transform: scale(1.1);
 }
 
 /* 用户信息 */

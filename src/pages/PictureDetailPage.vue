@@ -134,14 +134,14 @@ const picture = ref<API.PictureVO>({})
 
 const props = defineProps<Props>()
 
-const formatTime = (time: string) => {
+const formatTime = (time?: string) => {
   return time ? dayjs(time).format('YYYY-MM-DD HH:mm') : '-'
 }
 
 const FetchPictureDetail = async () => {
   try {
     const res = await getPictureVoByIdUsingGet({
-      id: props.id,
+      id: Number(props.id),
     })
     if (res.data.code === 0 && res.data.data) {
       picture.value = res.data.data
@@ -178,7 +178,7 @@ const doDelete = async () => {
   if (!id) {
     return
   }
-  const res = await deletePictureUsingPost({ id })
+  const res = await deletePictureUsingPost({ id: Number(id) })
   if (res.data.code === 0) {
     message.success('删除成功')
     router.push('/')

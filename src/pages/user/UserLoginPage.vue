@@ -153,6 +153,11 @@ const handleSubmit = async (values: any) => {
   border: 1px solid var(--color-border-light);
 }
 
+/* 暗色主题登录卡片 */
+[data-theme="dark"] .login-container {
+  border-color: var(--color-border);
+}
+
 /* === 左侧品牌区 === */
 .login-brand {
   flex: 1;

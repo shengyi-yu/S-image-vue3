@@ -104,7 +104,7 @@ import { useRouter } from 'vue-router'
 import { computed, onMounted, reactive, onActivated } from 'vue'
 
 // 数据
-const dataList = ref([])
+const dataList = ref<API.PictureVO[]>([])
 const total = ref(0)
 const loading = ref(true)
 const categoryList = ref<string[]>([])

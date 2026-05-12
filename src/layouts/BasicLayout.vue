@@ -14,6 +14,15 @@
           <span class="footer-brand">Sheng-image</span>
           <span class="footer-divider">·</span>
           <span>© {{ new Date().getFullYear() }} 图片管理系统</span>
+          <span class="footer-divider">·</span>
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-icp"
+          >
+            冀ICP备2025129355号
+          </a>
         </div>
       </a-layout-footer>
     </a-layout>
@@ -37,6 +46,11 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1px solid var(--color-border-light);
   box-shadow: var(--shadow-xs);
+  transition: background var(--transition-base);
+}
+
+[data-theme="dark"] #basicLayout .header {
+  background: rgba(30, 30, 46, 0.9);
 }
 
 #basicLayout .content {
@@ -74,5 +88,15 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 
 #basicLayout .footer-divider {
   color: var(--color-border);
+}
+
+#basicLayout .footer-icp {
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+#basicLayout .footer-icp:hover {
+  color: var(--color-primary);
 }
 </style>

@@ -106,7 +106,7 @@ const handleSubmit = async (values: any) => {
   }
 }
 
-const categoryOptions = ref<string[]>([])
+const categoryOptions = ref<{ label: string; value: string }[]>([])
 const tagOptions = ref<{ label: string; value: string }[]>([])
 /**
  * 获取标签和分类选项
@@ -146,10 +146,10 @@ const route = useRoute()
 // 获取老数据
 const getOldPicture = async () => {
   // 获取数据
-  const id = route.query?.id
+  const id = route.query?.id as string
   if (id) {
     const res = await getPictureVoByIdUsingGet({
-      id: id,
+      id: Number(id),
     })
     if (res.data.code === 0 && res.data.data) {
       const data = res.data.data
