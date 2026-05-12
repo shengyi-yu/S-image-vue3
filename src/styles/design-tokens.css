@@ -296,7 +296,8 @@ a:hover {
 }
 
 [data-theme="dark"] .ant-input::placeholder,
-[data-theme="dark"] .ant-input-affix-wrapper .ant-input::placeholder {
+[data-theme="dark"] .ant-input-affix-wrapper .ant-input::placeholder,
+[data-theme="dark"] .ant-select-selection-placeholder {
   color: #636d83 !important;
 }
 
@@ -511,4 +512,24 @@ a:hover {
 [data-theme="dark"] .ant-select-item-option-selected {
   background: rgba(97, 175, 239, 0.15);
   color: #61afef;
+}
+
+/* Select 选中值文字 */
+[data-theme="dark"] .ant-select-selection-item {
+  color: #abb2bf !important;
+}
+
+/* Select 清除按钮 */
+[data-theme="dark"] .ant-select-clear {
+  color: #636d83;
+  background: #21252b;
+}
+
+[data-theme="dark"] .ant-select-clear:hover {
+  color: #abb2bf;
+}
+
+/* Select 箭头 */
+[data-theme="dark"] .ant-select-arrow {
+  color: #636d83;
 }
