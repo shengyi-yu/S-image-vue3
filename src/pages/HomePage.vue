@@ -218,6 +218,11 @@ onActivated(() => {
   letter-spacing: -0.02em;
 }
 
+/* 暗色标题用白色 */
+[data-theme="dark"] .search-title {
+  color: #ffffff;
+}
+
 .search-subtitle {
   font-size: var(--font-size-md);
   color: var(--color-text-tertiary);
@@ -256,12 +261,18 @@ onActivated(() => {
 
 /* === 筛选区域 === */
 .filter-section {
-  background: var(--color-bg-primary);
+  background: var(--color-bg-tertiary);
   border-radius: var(--radius-lg);
   padding: var(--space-4) var(--space-6);
   margin-bottom: var(--space-6);
   box-shadow: var(--shadow-xs);
   border: 1px solid var(--color-border-light);
+}
+
+/* 暗色主题筛选栏：#21252b 层级 */
+[data-theme="dark"] .filter-section {
+  background: #21252b;
+  border-color: #3e4451;
 }
 
 .filter-section :deep(.ant-tabs-nav) {
@@ -303,6 +314,24 @@ onActivated(() => {
   transition: all var(--transition-fast);
 }
 
+/* 暗色主题标签 */
+[data-theme="dark"] .tag-item {
+  background: #3e4451;
+  border-color: #3e4451;
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .tag-item:hover {
+  background: #3e4451;
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .tag-item.ant-tag-checkable-checked {
+  background: #61afef;
+  border-color: #61afef;
+  color: #ffffff;
+}
+
 .tag-item:hover {
   background: var(--color-primary-bg);
   color: var(--color-primary);
@@ -318,6 +347,21 @@ onActivated(() => {
 .picture-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
+}
+
+/* 暗色卡片：#282c34 层级 */
+[data-theme="dark"] .picture-card {
+  background: #282c34;
+  border-color: #3e4451;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .picture-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .card-title {
+  color: #ffffff;
 }
 
 .picture-card :deep(.ant-card-body) {

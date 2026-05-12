@@ -201,197 +201,298 @@ a:hover {
    Dark Theme
    ============================================ */
 [data-theme="dark"] {
-  /* === 品牌色（暗色模式下稍微提亮） === */
-  --color-primary: #818cf8;
-  --color-primary-light: #a5b4fc;
-  --color-primary-dark: #6366f1;
-  --color-primary-bg: rgba(99, 102, 241, 0.15);
+  /* === One Dark Pro 品牌色 === */
+  --color-primary: #61afef;
+  --color-primary-light: #79c0ff;
+  --color-primary-dark: #528bcc;
+  --color-primary-bg: rgba(97, 175, 239, 0.15);
   
-  /* === 中性色 === */
-  --color-text-primary: #e2e8f0;
-  --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #64748b;
-  --color-text-inverse: #0f172a;
+  /* === One Dark Pro 中性色 === */
+  --color-text-primary: #abb2bf;
+  --color-text-secondary: #9da5b4;
+  --color-text-tertiary: #636d83;
+  --color-text-inverse: #282c34;
   
-  --color-bg-primary: #1e1e2e;
-  --color-bg-secondary: #14141f;
-  --color-bg-tertiary: #262637;
-  --color-bg-elevated: #2a2a3c;
+  /* === One Dark Pro 层级背景 === */
+  --color-bg-primary: #282c34;
+  --color-bg-secondary: #1e1e2e;
+  --color-bg-tertiary: #21252b;
+  --color-bg-elevated: #2c313a;
   
-  --color-border: #333348;
-  --color-border-light: #2a2a3c;
+  --color-border: #3e4451;
+  --color-border-light: #353b45;
   
   /* === 渐变 === */
-  --gradient-primary: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-subtle: linear-gradient(135deg, #1e1e2e 0%, #262637 100%);
+  --gradient-primary: linear-gradient(135deg, #61afef 0%, #c678dd 100%);
+  --gradient-hero: linear-gradient(135deg, #61afef 0%, #c678dd 100%);
+  --gradient-subtle: linear-gradient(135deg, #1e1e2e 0%, #21252b 100%);
   --gradient-glass: linear-gradient(135deg, rgba(30,30,46,0.9) 0%, rgba(30,30,46,0.6) 100%);
   
   /* === 阴影 === */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.2);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.2);
-  --shadow-glass: 0 8px 32px rgba(99, 102, 241, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-glass: 0 8px 32px rgba(97, 175, 239, 0.15);
 }
 
-/* 暗色主题下 Ant Design 覆盖 */
+/* ============================================
+   One Dark Pro 暗色主题 Ant Design 覆盖
+   层级：页面 #1e1e2e < 导航/筛选 #21252b < 卡片 #282c34
+   文字：#abb2bf (正文) | 白色 (标题高亮)
+   主色：#61afef (蓝) | 辅助：#c678dd (紫)
+   ============================================ */
+
+/* --- 按钮 --- */
+[data-theme="dark"] .ant-btn-primary {
+  background: #61afef;
+  border-color: #61afef;
+  box-shadow: 0 2px 8px rgba(97, 175, 239, 0.3);
+}
+
+[data-theme="dark"] .ant-btn-primary:hover {
+  background: #79c0ff;
+  border-color: #79c0ff;
+  box-shadow: 0 4px 12px rgba(97, 175, 239, 0.4);
+}
+
 [data-theme="dark"] .ant-btn-default {
-  background: var(--color-bg-elevated);
-  border-color: var(--color-border);
-  color: var(--color-text-primary);
+  background: #2c313a;
+  border-color: #3e4451;
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-btn-default:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  border-color: #61afef;
+  color: #61afef;
 }
 
+[data-theme="dark"] .ant-btn-link {
+  color: #61afef;
+}
+
+[data-theme="dark"] .ant-btn-link:hover {
+  color: #79c0ff;
+}
+
+/* --- 输入框 --- */
 [data-theme="dark"] .ant-input,
 [data-theme="dark"] .ant-input-affix-wrapper,
 [data-theme="dark"] .ant-select-selector,
 [data-theme="dark"] .ant-input-search {
-  background: var(--color-bg-tertiary) !important;
-  border-color: var(--color-border) !important;
-  color: var(--color-text-primary) !important;
+  background: #21252b !important;
+  border-color: #3e4451 !important;
+  color: #abb2bf !important;
+}
+
+[data-theme="dark"] .ant-input:focus,
+[data-theme="dark"] .ant-input-affix-wrapper:focus,
+[data-theme="dark"] .ant-input-affix-wrapper-focused {
+  border-color: #61afef !important;
+  box-shadow: 0 0 0 2px rgba(97, 175, 239, 0.15) !important;
 }
 
 [data-theme="dark"] .ant-input::placeholder,
 [data-theme="dark"] .ant-input-affix-wrapper .ant-input::placeholder {
-  color: var(--color-text-tertiary) !important;
+  color: #636d83 !important;
 }
 
+[data-theme="dark"] .ant-input-search-button {
+  background: #61afef !important;
+  border-color: #61afef !important;
+  color: #fff !important;
+}
+
+/* --- 卡片 --- */
 [data-theme="dark"] .ant-card {
-  background: var(--color-bg-primary);
-  border-color: var(--color-border);
+  background: #282c34;
+  border-color: #3e4451;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .ant-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="dark"] .ant-card-meta-title {
-  color: var(--color-text-primary) !important;
+  color: #ffffff !important;
 }
 
 [data-theme="dark"] .ant-card-meta-description {
-  color: var(--color-text-secondary) !important;
+  color: #abb2bf !important;
 }
 
+/* --- 导航菜单 --- */
 [data-theme="dark"] .ant-menu {
   background: transparent !important;
-  color: var(--color-text-secondary) !important;
+  color: #abb2bf !important;
 }
 
 [data-theme="dark"] .ant-menu-item {
-  color: var(--color-text-secondary) !important;
+  color: #abb2bf !important;
 }
 
 [data-theme="dark"] .ant-menu-item:hover {
-  color: var(--color-primary) !important;
-  background: var(--color-primary-bg) !important;
+  color: #61afef !important;
+  background: rgba(97, 175, 239, 0.1) !important;
 }
 
 [data-theme="dark"] .ant-menu-item-selected {
-  color: var(--color-primary) !important;
-  background: var(--color-primary-bg) !important;
+  color: #61afef !important;
+  background: rgba(97, 175, 239, 0.1) !important;
 }
 
+/* --- Tabs 筛选栏 --- */
 [data-theme="dark"] .ant-tabs-tab {
-  color: var(--color-text-secondary);
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-tabs-tab:hover {
-  color: var(--color-primary);
+  color: #61afef;
 }
 
 [data-theme="dark"] .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: var(--color-primary) !important;
+  color: #61afef !important;
 }
 
 [data-theme="dark"] .ant-tabs-ink-bar {
-  background: var(--color-primary);
+  background: #61afef;
 }
 
+/* --- 标签 Tag（关键修复） --- */
 [data-theme="dark"] .ant-tag {
-  background: var(--color-bg-tertiary);
-  border-color: var(--color-border);
-  color: antd-tag-color;
+  background: #3e4451;
+  border-color: #3e4451;
+  color: #abb2bf;
 }
 
+[data-theme="dark"] .ant-tag-checkable {
+  background: #3e4451;
+  border-color: #3e4451;
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-tag-checkable:hover {
+  background: #3e4451;
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-tag-checkable-checked {
+  background: #61afef;
+  border-color: #61afef;
+  color: #ffffff;
+}
+
+/* --- 描述列表 --- */
 [data-theme="dark"] .ant-descriptions-item-label {
-  color: var(--color-text-tertiary) !important;
+  color: #636d83 !important;
 }
 
 [data-theme="dark"] .ant-descriptions-item-content {
-  color: var(--color-text-primary) !important;
+  color: #abb2bf !important;
 }
 
+/* --- 下拉菜单 --- */
 [data-theme="dark"] .ant-dropdown-menu {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
+  background: #2c313a;
+  border: 1px solid #3e4451;
 }
 
 [data-theme="dark"] .ant-dropdown-menu-item {
-  color: var(--color-text-primary);
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-dropdown-menu-item:hover {
-  background: var(--color-primary-bg);
+  background: rgba(97, 175, 239, 0.1);
+  color: #61afef;
 }
 
+/* --- 分页 --- */
 [data-theme="dark"] .ant-pagination-item {
-  background: var(--color-bg-elevated);
-  border-color: var(--color-border);
+  background: #2c313a;
+  border-color: #3e4451;
 }
 
 [data-theme="dark"] .ant-pagination-item a {
-  color: var(--color-text-primary);
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-pagination-item-active {
-  border-color: var(--color-primary);
+  border-color: #61afef;
 }
 
 [data-theme="dark"] .ant-pagination-item-active a {
-  color: var(--color-primary);
+  color: #61afef;
 }
 
+/* --- 表格 --- */
 [data-theme="dark"] .ant-table {
-  background: var(--color-bg-primary);
-  color: var(--color-text-primary);
+  background: #282c34;
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-table-thead > tr > th {
-  background: var(--color-bg-tertiary) !important;
-  color: var(--color-text-secondary) !important;
-  border-bottom-color: var(--color-border) !important;
+  background: #21252b !important;
+  color: #abb2bf !important;
+  border-bottom-color: #3e4451 !important;
 }
 
 [data-theme="dark"] .ant-table-tbody > tr > td {
-  border-bottom-color: var(--color-border) !important;
-  color: var(--color-text-primary) !important;
+  border-bottom-color: #3e4451 !important;
+  color: #abb2bf !important;
 }
 
 [data-theme="dark"] .ant-table-tbody > tr:hover > td {
-  background: var(--color-bg-tertiary) !important;
+  background: #2c313a !important;
 }
 
+/* --- 分割线 --- */
 [data-theme="dark"] .ant-divider {
-  border-color: var(--color-border);
+  border-color: #3e4451;
 }
 
+/* --- 图片 --- */
 [data-theme="dark"] .ant-image-img {
-  background: var(--color-bg-tertiary);
+  background: #21252b;
 }
 
+/* --- 表单 --- */
 [data-theme="dark"] .ant-form-item-label > label {
-  color: var(--color-text-secondary) !important;
+  color: #abb2bf !important;
+}
+
+/* --- 列表 --- */
+[data-theme="dark"] .ant-list {
+  color: #abb2bf;
 }
 
 [data-theme="dark"] .ant-list-item {
-  border-bottom-color: var(--color-border);
+  border-bottom-color: #3e4451;
 }
 
+/* --- 加载 --- */
 [data-theme="dark"] .ant-spin-dot-item {
-  background: var(--color-primary);
+  background: #61afef;
+}
+
+/* --- 自动完成 --- */
+[data-theme="dark"] .ant-select-dropdown {
+  background: #2c313a;
+  border: 1px solid #3e4451;
+}
+
+[data-theme="dark"] .ant-select-item {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-select-item-option-active {
+  background: rgba(97, 175, 239, 0.1);
+}
+
+[data-theme="dark"] .ant-select-item-option-selected {
+  background: rgba(97, 175, 239, 0.15);
+  color: #61afef;
 }

@@ -50,7 +50,16 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
 }
 
 [data-theme="dark"] #basicLayout .header {
-  background: rgba(30, 30, 46, 0.9);
+  background: #21252b;
+  border-bottom-color: #3e4451;
+}
+
+[data-theme="dark"] #basicLayout .footer {
+  background: #1e1e2e;
+}
+
+[data-theme="dark"] #basicLayout :deep(.ant-layout-footer) {
+  background: #1e1e2e !important;
 }
 
 #basicLayout .content {
@@ -65,8 +74,12 @@ import GlobalHeader from '@/components/GlobalHeader.vue'
   width: 100%;
 }
 
+#basicLayout :deep(.ant-layout-footer) {
+  background: var(--color-bg-secondary) !important;
+}
+
 #basicLayout .footer {
-  background: transparent;
+  background: var(--color-bg-secondary);
   border-top: 1px solid var(--color-border-light);
   padding: var(--space-5) var(--space-8);
   text-align: center;
