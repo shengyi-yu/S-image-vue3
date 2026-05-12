@@ -1,48 +1,78 @@
 <template>
   <div id="basicLayout">
-    <a-layout style="min-height: 100vh;">
+    <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <GlobalHeader/>
+        <GlobalHeader />
       </a-layout-header>
       <a-layout-content class="content">
-        <router-view/>
+        <div class="content-wrapper">
+          <router-view />
+        </div>
       </a-layout-content>
       <a-layout-footer class="footer">
-        <div class="container">
-          <p>© 2025 Sheng-image 图片管理系统 | 版权所有</p>
+        <div class="footer-inner">
+          <span class="footer-brand">Sheng-image</span>
+          <span class="footer-divider">·</span>
+          <span>© {{ new Date().getFullYear() }} 图片管理系统</span>
         </div>
       </a-layout-footer>
     </a-layout>
   </div>
 </template>
 
-
-
 <script setup lang="ts">
-import  GlobalHeader from '@/components/GlobalHeader.vue';
+import GlobalHeader from '@/components/GlobalHeader.vue'
 </script>
 
 <style scoped>
 #basicLayout .header {
-  padding-inline: 80px;
-  background: white;
-  color: unset;
-  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  line-height: var(--header-height);
+  padding-inline: var(--space-8);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-xs);
+}
+
+#basicLayout .content {
+  padding: var(--space-6);
+  background: var(--color-bg-secondary);
+  min-height: calc(100vh - var(--header-height) - 60px);
+}
+
+#basicLayout .content-wrapper {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  width: 100%;
 }
 
 #basicLayout .footer {
-  background: #efefef;
-  padding: 16px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  background: transparent;
+  border-top: 1px solid var(--color-border-light);
+  padding: var(--space-5) var(--space-8);
   text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
 }
-#basicLayout .content {
-  padding: 24px;
-  background: linear-gradient(to right, #fefefe, #ffffff);
 
-  margin-bottom: 80px; /* 留出空间给固定的页脚 */
+#basicLayout .footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+#basicLayout .footer-brand {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+#basicLayout .footer-divider {
+  color: var(--color-border);
 }
 </style>

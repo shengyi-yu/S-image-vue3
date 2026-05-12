@@ -1,73 +1,115 @@
 <template>
   <div id="pictureDetailPage">
-    <a-row :gutter="[16, 16]">
+    <a-row :gutter="[24, 24]">
       <!-- 图片展示区 -->
       <a-col :sm="24" :md="16" :xl="18">
-        <a-card title="图片预览">
-          <a-image style="max-height: 600px; object-fit: contain" :src="picture.url" />
+        <a-card class="preview-card" :bordered="false">
+          <div class="preview-wrapper">
+            <a-image
+              class="preview-image"
+              :src="picture.url"
+              :alt="picture.name"
+            />
+          </div>
         </a-card>
       </a-col>
+
       <!-- 图片信息区 -->
       <a-col :sm="24" :md="8" :xl="6">
-        <a-card title="图片信息">
-          <a-descriptions :column="1">
-            <a-descriptions-item label="作者">
-              <a-space>
-                <a-avatar :size="24" :src="picture.user?.userAvatar" />
-                <div>{{ picture.user?.userName }}</div>
-              </a-space>
-            </a-descriptions-item>
-            <a-descriptions-item label="名称">
-              {{ picture.name ?? '未命名' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="简介">
-              {{ picture.introduction ?? '-' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="分类">
-              {{ picture.category ?? '默认' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="标签">
-              <a-tag v-for="tag in picture.tags" :key="tag">
-                {{ tag }}
-              </a-tag>
-            </a-descriptions-item>
-            <a-descriptions-item label="格式">
-              {{ picture.picFormat ?? '-' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="宽度">
-              {{ picture.picWidth ?? '-' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="高度">
-              {{ picture.picHeight ?? '-' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="宽高比">
-              {{ picture.picScale ?? '-' }}
-            </a-descriptions-item>
-            <a-descriptions-item label="大小">
-              {{ formatSize(picture.picSize) }}
-            </a-descriptions-item>
-          </a-descriptions>
-          <a-space wrap>
-            <a-button v-if="canEdit" type="default" @click="doEdit">
-              编辑
-              <template #icon>
-                <EditOutlined />
-              </template>
-            </a-button>
-            <a-button v-if="canEdit" danger @click="doDelete">
-              删除
-              <template #icon>
-                <DeleteOutlined />
-              </template>
-            </a-button>
-            <a-button type="primary" @click="doDownload">
-            免费下载
-            <template #icon>
-              <DownloadOutlined />
-            </template>
-          </a-button>
-          </a-space>
+        <a-card class="info-card" :bordered="false">
+          <!-- 作者信息 -->
+          <div class="author-section">
+            <a-avatar :size="40" :src="picture.user?.userAvatar" class="author-avatar" />
+            <div class="author-info">
+              <div class="author-name">{{ picture.user?.userName ?? '未知用户' }}</div>
+              <div class="upload-time">上传于 {{ formatTime(picture.createTime) }}</div>
+            </div>
+          </div>
 
+          <a-divider />
+
+          <!-- 图片标题 -->
+          <h2 class="picture-title">{{ picture.name ?? '未命名' }}</h2>
+          <p class="picture-intro" v-if="picture.introduction">
+            {{ picture.introduction }}
+          </p>
+
+          <a-divider />
+
+          <!-- 标签和分类 -->
+          <div class="meta-section">
+            <div class="meta-row" v-if="picture.category">
+              <span class="meta-label">分类</span>
+              <a-tag color="blue" class="meta-tag">{{ picture.category }}</a-tag>
+            </div>
+            <div class="meta-row" v-if="picture.tags?.length">
+              <span class="meta-label">标签</span>
+              <div class="meta-tags">
+                <a-tag v-for="tag in picture.tags" :key="tag" class="meta-tag">
+                  {{ tag }}
+                </a-tag>
+              </div>
+            </div>
+          </div>
+
+          <a-divider />
+
+          <!-- 图片属性 -->
+          <div class="props-section">
+            <div class="prop-item">
+              <span class="prop-label">格式</span>
+              <span class="prop-value">{{ picture.picFormat ?? '-' }}</span>
+            </div>
+            <div class="prop-item">
+              <span class="prop-label">尺寸</span>
+              <span class="prop-value">
+                {{ picture.picWidth && picture.picHeight ? `${picture.picWidth} × ${picture.picHeight}` : '-' }}
+              </span>
+            </div>
+            <div class="prop-item">
+              <span class="prop-label">宽高比</span>
+              <span class="prop-value">{{ picture.picScale ?? '-' }}</span>
+            </div>
+            <div class="prop-item">
+              <span class="prop-label">大小</span>
+              <span class="prop-value">{{ formatSize(picture.picSize) }}</span>
+            </div>
+          </div>
+
+          <a-divider />
+
+          <!-- 操作按钮 -->
+          <div class="action-buttons">
+            <a-button
+              v-if="canEdit"
+              type="default"
+              block
+              class="action-btn"
+              @click="doEdit"
+            >
+              <template #icon><EditOutlined /></template>
+              编辑
+            </a-button>
+            <a-button
+              v-if="canEdit"
+              danger
+              block
+              class="action-btn"
+              @click="doDelete"
+            >
+              <template #icon><DeleteOutlined /></template>
+              删除
+            </a-button>
+            <a-button
+              type="primary"
+              block
+              class="download-btn"
+              @click="doDownload"
+            >
+              <template #icon><DownloadOutlined /></template>
+              免费下载
+            </a-button>
+          </div>
         </a-card>
       </a-col>
     </a-row>
@@ -80,8 +122,9 @@ import { downloadImage, formatSize } from '@/utils'
 import { message } from 'ant-design-vue'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { useLoginUserStore } from '@/stores/useLoginUserStore'
+import dayjs from 'dayjs'
 
 interface Props {
   id: string | number
@@ -90,6 +133,10 @@ interface Props {
 const picture = ref<API.PictureVO>({})
 
 const props = defineProps<Props>()
+
+const formatTime = (time: string) => {
+  return time ? dayjs(time).format('YYYY-MM-DD HH:mm') : '-'
+}
 
 const FetchPictureDetail = async () => {
   try {
@@ -110,27 +157,22 @@ const loginUserStore = useLoginUserStore()
 // 是否具有编辑权限
 const canEdit = computed(() => {
   const loginUser = loginUserStore.loginUser
-  // 未登录不可编辑
   if (!loginUser.id) {
     return false
   }
-  // 仅本人或管理员可编辑
   const user = picture.value.user || {}
   return loginUser.id === user.id || loginUser.userRole === 'admin'
 })
 
 const router = useRouter()
-// 编辑
 const doEdit = () => {
   router.push('/add_picture?id=' + picture.value.id)
 }
 
-// 处理下载
 const doDownload = () => {
   downloadImage(picture.value.url)
 }
 
-// 删除
 const doDelete = async () => {
   const id = picture.value.id
   if (!id) {
@@ -150,4 +192,192 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+#pictureDetailPage {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* === 预览卡片 === */
+.preview-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.preview-card :deep(.ant-card-body) {
+  padding: var(--space-4);
+}
+
+.preview-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.preview-image {
+  max-height: 600px;
+  object-fit: contain;
+}
+
+.preview-image :deep(.ant-image-img) {
+  max-height: 600px;
+  object-fit: contain;
+}
+
+/* === 信息卡片 === */
+.info-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-6));
+}
+
+.info-card :deep(.ant-card-body) {
+  padding: var(--space-6);
+}
+
+.info-card :deep(.ant-divider) {
+  margin: var(--space-4) 0;
+  border-color: var(--color-border-light);
+}
+
+/* === 作者区域 === */
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.author-avatar {
+  border: 2px solid var(--color-primary-bg);
+}
+
+.author-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+}
+
+.upload-time {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-1);
+}
+
+/* === 图片标题 === */
+.picture-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  line-height: var(--line-height-tight);
+}
+
+.picture-intro {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* === 标签分类 === */
+.meta-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.meta-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  min-width: 40px;
+  padding-top: 2px;
+}
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.meta-tag {
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+/* === 图片属性 === */
+.props-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.prop-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prop-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.prop-value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* === 操作按钮 === */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.action-btn {
+  height: 44px;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.download-btn {
+  height: 48px;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  background: var(--gradient-primary);
+  border: none;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transition: all var(--transition-base);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+/* === 响应式 === */
+@media (max-width: 768px) {
+  .info-card {
+    position: static;
+  }
+}
+</style>

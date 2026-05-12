@@ -3,8 +3,16 @@
     <h2 style="margin-bottom: 16px">
       {{ route.query?.id ? '修改图片' : '创建图片' }}
     </h2>
-    <!-- 图片上传组件 -->
-    <PictureUpload :picture="picture" :onSuccess="onSuccess" />
+
+    <!-- 选择上传方式 -->
+    <a-tabs v-model:activeKey="uploadType">
+      <a-tab-pane key="file" tab="文件上传">
+        <PictureUpload :picture="picture" :onSuccess="onSuccess" />
+      </a-tab-pane>
+      <a-tab-pane key="url" tab="URL 上传" force-render>
+        <UrlPictureUpload :picture="picture" :onSuccess="onSuccess" />
+      </a-tab-pane>
+    </a-tabs>
     <!-- 图片信息表单 -->
     <a-form
       v-if="picture"
@@ -41,6 +49,7 @@
           :options="tagOptions"
         ></a-select>
       </a-form-item>
+
       <a-form-item>
         <a-button type="primary" html-type="submit" style="width: 100%">创建</a-button>
       </a-form-item>
@@ -58,13 +67,16 @@ import PictureUpload from '@/components/PictureUpload.vue'
 import { onMounted, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
+import UrlPictureUpload from '@/components/UrlPictureUpload.vue'
 
 const router = useRouter()
 
 const picture = ref<API.PictureVO>()
 
 const pictureForm = reactive<API.PictureEditRequest>({})
-const onSuccess = (newPicture: API.PictureVO) => {
+
+const uploadType = ref<'file' | 'url'>('file')
+  const onSuccess = (newPicture: API.PictureVO) => {
   picture.value = newPicture
   pictureForm.name = newPicture.name
 }
@@ -94,8 +106,8 @@ const handleSubmit = async (values: any) => {
   }
 }
 
-const categoryOptions = ref<String[]>([])
-const tagOptions = ref<Strins[]>([])
+const categoryOptions = ref<string[]>([])
+const tagOptions = ref<{ label: string; value: string }[]>([])
 /**
  * 获取标签和分类选项
  * @param value
@@ -105,13 +117,13 @@ const getTagCategoryOptions = async () => {
     const res = await listPictureTagCategoryUsingGet()
     // 操作成功
     if (res.data.code === 0 && res.data.data) {
-      tagOptions.value = (res.data.data.tagList ?? []).map((data: String) => {
+      tagOptions.value = (res.data.data.tagList ?? []).map((data: string) => {
         return {
           label: data,
           value: data,
         }
       })
-      categoryOptions.value = (res.data.data.categoryList ?? []).map((data: String) => {
+      categoryOptions.value = (res.data.data.categoryList ?? []).map((data: string) => {
         return {
           label: data,
           value: data,
