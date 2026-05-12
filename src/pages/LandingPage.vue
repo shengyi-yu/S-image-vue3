@@ -34,10 +34,16 @@
         </div>
       </div>
 
-      <!-- 底部滚动提示 -->
-      <div class="scroll-hint" @click="goToGallery">
-        <span>向下滚动</span>
-        <DownOutlined class="scroll-icon" />
+      <!-- 底部备案号 -->
+      <div class="landing-footer">
+        <a
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-icp"
+        >
+          冀ICP备2025129355号
+        </a>
       </div>
     </div>
   </div>
@@ -46,7 +52,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { PictureOutlined, UploadOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { PictureOutlined, UploadOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 const videoRef = ref<HTMLVideoElement>()
@@ -178,27 +184,26 @@ const goToUpload = () => {
   transform: translateY(-2px);
 }
 
-/* === 滚动提示 === */
-.scroll-hint {
+/* === 底部备案号 === */
+.landing-footer {
   position: absolute;
-  bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  color: rgba(255, 255, 255, 0.6);
-  font-size: var(--font-size-sm);
-  cursor: pointer;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1;
+}
+
+.footer-icp {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: var(--font-size-xs);
+  text-decoration: none;
   transition: color var(--transition-fast);
-  animation: bounce 2s infinite;
+  letter-spacing: 0.02em;
 }
 
-.scroll-hint:hover {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.scroll-icon {
-  font-size: 18px;
+.footer-icp:hover {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* === 动画 === */
@@ -210,18 +215,6 @@ const goToUpload = () => {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-8px);
-  }
-  60% {
-    transform: translateY(-4px);
   }
 }
 
