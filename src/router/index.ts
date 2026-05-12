@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import LandingPage from '@/pages/LandingPage.vue'
 import HomePage from '@/pages/HomePage.vue'
 import UserLoginPage from '@/pages/user/UserLoginPage.vue'
 import UserRegisterPage from '@/pages/user/UserRegisterPage.vue'
@@ -13,7 +14,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: '主页',
+      name: '首页',
+      component: LandingPage,
+    },
+    {
+      path: '/pictures',
+      name: '图片库',
       component: HomePage,
     },
     {

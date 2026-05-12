@@ -88,8 +88,14 @@ const originItems = [
   {
     key: '/',
     icon: () => h(HomeOutlined),
-    label: '主页',
-    title: '主页',
+    label: '首页',
+    title: '首页',
+  },
+  {
+    key: '/pictures',
+    icon: () => h(PictureOutlined),
+    label: '图片库',
+    title: '图片库',
   },
   {
     key: '/admin/userManage',
