@@ -478,6 +478,22 @@ a:hover {
   background: #61afef;
 }
 
+/* --- 全局标题/段落文字（解决 h1-h6、p 等原生标签黑色问题） --- */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div {
+  color: #abb2bf;
+}
+
 /* --- 自动完成 --- */
 [data-theme="dark"] .ant-select-dropdown {
   background: #2c313a;
