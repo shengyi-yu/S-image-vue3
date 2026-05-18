@@ -4,7 +4,16 @@
       <a-layout-header :class="['header', { 'header-landing': isLanding }]">
         <GlobalHeader :transparent="isLanding" />
       </a-layout-header>
-      <a-layout-content :class="['content', { 'content-landing': isLanding }]">
+      <a-layout v-if="showSider" style="min-height: calc(100vh - var(--header-height))">
+        <GlobalSider />
+        <a-layout-content class="content" style="margin-left: 200px">
+          <router-view />
+        </a-layout-content>
+      </a-layout>
+      <a-layout-content v-else-if="!isLanding" class="content">
+        <router-view />
+      </a-layout-content>
+      <a-layout-content v-else class="content-landing">
         <router-view />
       </a-layout-content>
       <a-layout-footer v-if="!isLanding" class="footer">
@@ -24,6 +33,7 @@
         </div>
       </a-layout-footer>
     </a-layout>
+
   </div>
 </template>
 
@@ -31,9 +41,11 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import GlobalHeader from '@/components/GlobalHeader.vue'
+import GlobalSider from '@/components/GlobalSider.vue'
 
 const route = useRoute()
 const isLanding = computed(() => route.path === '/')
+const showSider = computed(() => ['/pictures', '/space'].some(p => route.path.startsWith(p)))
 </script>
 
 <style scoped>
@@ -53,7 +65,7 @@ const isLanding = computed(() => route.path === '/')
   transition: all var(--transition-base);
 }
 
-[data-theme="dark"] #basicLayout .header {
+[data-theme='dark'] #basicLayout .header {
   background: #21252b;
   border-bottom-color: #3e4451;
 }
@@ -86,11 +98,11 @@ const isLanding = computed(() => route.path === '/')
 }
 
 /* === Footer === */
-[data-theme="dark"] #basicLayout .footer {
+[data-theme='dark'] #basicLayout .footer {
   background: #1e1e2e;
 }
 
-[data-theme="dark"] #basicLayout :deep(.ant-layout-footer) {
+[data-theme='dark'] #basicLayout :deep(.ant-layout-footer) {
   background: #1e1e2e !important;
 }
 

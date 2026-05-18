@@ -44,6 +44,12 @@
                 </a-space>
                 <template #overlay>
                   <a-menu class="user-dropdown">
+                    <a-menu-item>
+                      <router-link to="/my_space">
+                        <UserOutlined />
+                        <span style="margin-left: 8px">我的空间</span>
+                      </router-link>
+                    </a-menu-item>
                     <a-menu-item @click="doLogout">
                       <LogoutOutlined />
                       <span style="margin-left: 8px">退出登录</span>
@@ -55,7 +61,9 @@
             <div v-else>
               <a-space>
                 <a-button href="/user/register" class="landing-btn">注册</a-button>
-                <a-button type="primary" href="/user/login" class="landing-btn-primary">登录</a-button>
+                <a-button type="primary" href="/user/login" class="landing-btn-primary"
+                  >登录</a-button
+                >
               </a-space>
             </div>
           </div>
@@ -113,6 +121,12 @@ const originItems = [
     icon: () => h(PictureOutlined),
     label: '图片管理',
     title: '图片管理',
+  },
+  {
+    key: '/admin/spaceManage',
+    icon: () => h(PictureOutlined),
+    label: '空间管理',
+    title: '空间管理',
   },
   {
     key: '/add_picture',

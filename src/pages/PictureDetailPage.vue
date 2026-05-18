@@ -5,11 +5,7 @@
       <a-col :sm="24" :md="16" :xl="18">
         <a-card class="preview-card" :bordered="false">
           <div class="preview-wrapper">
-            <a-image
-              class="preview-image"
-              :src="picture.url"
-              :alt="picture.name"
-            />
+            <a-image class="preview-image" :src="picture.url" :alt="picture.name" />
           </div>
         </a-card>
       </a-col>
@@ -56,6 +52,12 @@
 
           <!-- 图片属性 -->
           <div class="props-section">
+            <div class="prop-item" v-if="space">
+              <span class="prop-label">所属空间</span>
+              <span class="prop-value">
+                <a-tag color="purple" class="meta-tag">{{ space.spaceName }}</a-tag>
+              </span>
+            </div>
             <div class="prop-item">
               <span class="prop-label">格式</span>
               <span class="prop-value">{{ picture.picFormat ?? '-' }}</span>
@@ -63,7 +65,11 @@
             <div class="prop-item">
               <span class="prop-label">尺寸</span>
               <span class="prop-value">
-                {{ picture.picWidth && picture.picHeight ? `${picture.picWidth} × ${picture.picHeight}` : '-' }}
+                {{
+                  picture.picWidth && picture.picHeight
+                    ? `${picture.picWidth} × ${picture.picHeight}`
+                    : '-'
+                }}
               </span>
             </div>
             <div class="prop-item">
@@ -80,32 +86,15 @@
 
           <!-- 操作按钮 -->
           <div class="action-buttons">
-            <a-button
-              v-if="canEdit"
-              type="default"
-              block
-              class="action-btn"
-              @click="doEdit"
-            >
+            <a-button v-if="canEdit" type="default" block class="action-btn" @click="doEdit">
               <template #icon><EditOutlined /></template>
               编辑
             </a-button>
-            <a-button
-              v-if="canEdit"
-              danger
-              block
-              class="action-btn"
-              @click="doDelete"
-            >
+            <a-button v-if="canEdit" danger block class="action-btn" @click="doDelete">
               <template #icon><DeleteOutlined /></template>
               删除
             </a-button>
-            <a-button
-              type="primary"
-              block
-              class="download-btn"
-              @click="doDownload"
-            >
+            <a-button type="primary" block class="download-btn" @click="doDownload">
               <template #icon><DownloadOutlined /></template>
               免费下载
             </a-button>
@@ -118,6 +107,7 @@
 
 <script setup lang="ts">
 import { deletePictureUsingPost, getPictureVoByIdUsingGet } from '@/api/pictureController'
+import { getSpaceVoByIdUsingGet } from '@/api/spaceController'
 import { downloadImage, formatSize } from '@/utils'
 import { message } from 'ant-design-vue'
 import { computed, onMounted, ref } from 'vue'
@@ -131,6 +121,7 @@ interface Props {
 }
 
 const picture = ref<API.PictureVO>({})
+const space = ref<API.SpaceVO | null>(null)
 
 const props = defineProps<Props>()
 
@@ -141,10 +132,17 @@ const formatTime = (time?: string) => {
 const FetchPictureDetail = async () => {
   try {
     const res = await getPictureVoByIdUsingGet({
-      id: Number(props.id),
+      id: props.id as any,
     })
     if (res.data.code === 0 && res.data.data) {
       picture.value = res.data.data
+      // 如果属于某个空间，获取空间信息
+      if (picture.value.spaceId) {
+        const spaceRes = await getSpaceVoByIdUsingGet({ id: picture.value.spaceId })
+        if (spaceRes.data.code === 0 && spaceRes.data.data) {
+          space.value = spaceRes.data.data
+        }
+      }
     } else {
       message.error('图片获取失败' + res.data.message)
     }
@@ -166,7 +164,13 @@ const canEdit = computed(() => {
 
 const router = useRouter()
 const doEdit = () => {
-  router.push('/add_picture?id=' + picture.value.id)
+  router.push({
+    path: '/add_picture',
+    query: {
+      id: picture.value.id,
+      spaceId: picture.value.spaceId,
+    },
+  })
 }
 
 const doDownload = () => {
@@ -178,10 +182,10 @@ const doDelete = async () => {
   if (!id) {
     return
   }
-  const res = await deletePictureUsingPost({ id: Number(id) })
+  const res = await deletePictureUsingPost({ id: id as any })
   if (res.data.code === 0) {
     message.success('删除成功')
-    router.push('/')
+    router.push('/pictures')
   } else {
     message.error('删除失败')
   }

@@ -429,6 +429,25 @@ a:hover {
   color: #61afef;
 }
 
+[data-theme="dark"] .ant-pagination-total-text {
+  color: #abb2bf !important;
+}
+
+[data-theme="dark"] .ant-pagination-prev .ant-pagination-item-link,
+[data-theme="dark"] .ant-pagination-next .ant-pagination-item-link {
+  color: #abb2bf;
+  background: #2c313a;
+  border-color: #3e4451;
+}
+
+[data-theme="dark"] .ant-pagination-disabled .ant-pagination-item-link {
+  color: #636d83 !important;
+}
+
+[data-theme="dark"] .ant-pagination-options-size-changer {
+  color: #abb2bf;
+}
+
 /* --- 表格 --- */
 [data-theme="dark"] .ant-table {
   background: #282c34;

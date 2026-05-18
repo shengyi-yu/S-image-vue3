@@ -1,67 +1,15 @@
 <template>
-  <div id="homePage">
-    <!-- 搜索区域 -->
-    <div class="search-section">
-      <h1 class="search-title">发现精彩图片</h1>
-      <p class="search-subtitle">海量高清图片，免费下载使用</p>
-      <div class="search-bar">
-        <a-input-search
-          placeholder="搜索图片名称、分类、标签..."
-          v-model:value="searchParams.searchText"
-          enter-button="搜索"
-          size="large"
-          @search="doSearch"
-        />
-      </div>
-    </div>
-
-    <!-- 分类 + 标签 -->
-    <div class="filter-section">
-      <a-tabs v-model:activeKey="selectedCategory" @change="doSearch">
-        <a-tab-pane key="all" tab="全部" />
-        <a-tab-pane v-for="category in categoryList" :key="category" :tab="category" />
-      </a-tabs>
-      <div class="tag-bar">
-        <span class="tag-label">标签：</span>
-        <a-space :size="[0, 8]" wrap>
-          <a-checkable-tag
-            v-for="(tag, index) in tagList"
-            :key="tag"
-            v-model:checked="selectedTagList[index]"
-            class="tag-item"
-            @change="doSearch"
-          >
-            {{ tag }}
-          </a-checkable-tag>
-        </a-space>
-      </div>
-    </div>
-
+  <div class="picture-list">
     <!-- 图片列表 -->
-    <PictureList :dataList="dataList" :loading="loading" />
-    <a-pagination
-      style="text-align: right"
-      v-model:current="searchParams.current"
-      v-model:pageSize="searchParams.pageSize"
-      :total="total"
-      @change="onPageChange"
-    />
-
-    <!-- 图片列表 -->
-    <!-- <a-list
+    <a-list
       style="width: 100%"
       :grid="{ gutter: 20, xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }"
       :data-source="dataList"
-      :pagination="pagination"
       :loading="loading"
     >
       <template #renderItem="{ item: picture }">
         <a-list-item style="padding: 0">
-          <a-card
-            hoverable
-            class="picture-card"
-            @click="doClickPicture(picture)"
-          >
+          <a-card hoverable class="picture-card" @click="doClickPicture(picture)">
             <template #cover>
               <div class="img-wrapper">
                 <img
@@ -92,103 +40,79 @@
                 </div>
               </template>
             </a-card-meta>
+            <div v-if="showOp" class="card-actions">
+              <a-space @click.stop="doEdit(picture, $event)">
+                <edit-outlined />
+                编辑
+              </a-space>
+              <a-space @click.stop="doDelete(picture, $event)">
+                <delete-outlined />
+                删除
+              </a-space>
+            </div>
           </a-card>
         </a-list-item>
       </template>
-    </a-list> -->
+    </a-list>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  listPictureTagCategoryUsingGet,
-  listPictureVoByPageUsingPost,
-} from '@/api/pictureController'
-import { message } from 'ant-design-vue'
 import { ref } from 'vue'
-import {  onMounted, reactive, onActivated } from 'vue'
-import PictureList from '@/components/PictureList.vue'
+import { useRouter } from 'vue-router'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { deletePictureUsingPost } from '@/api/pictureController'
+import { message } from 'ant-design-vue'
 
-// 数据
-const dataList = ref<API.PictureVO[]>([])
-const total = ref(0)
-const loading = ref(true)
-const categoryList = ref<string[]>([])
-const selectedCategory = ref<string>('all')
-const tagList = ref<string[]>([])
-const selectedTagList = ref<string[]>([])
-
-// 获取标签和分类选项
-const getTagCategoryOptions = async () => {
-  const res = await listPictureTagCategoryUsingGet()
-  if (res.data.code === 0 && res.data.data) {
-    categoryList.value = res.data.data.categoryList ?? []
-    tagList.value = res.data.data.tagList ?? []
-  } else {
-    message.error('加载分类标签失败，' + res.data.message)
-  }
+interface Props {
+  dataList?: API.PictureVO[]
+  loading?: boolean
+  showOp?: boolean
+  onReload?: () => void
 }
 
-onMounted(() => {
-  getTagCategoryOptions()
+const props = withDefaults(defineProps<Props>(), {
+  dataList: () => [],
+  loading: false,
+  showOp: false,
 })
 
-const doSearch = () => {
-  searchParams.current = 1
-  fetchData()
-}
+const router = useRouter()
 
-// 搜索条件
-const searchParams = reactive<API.PictureQueryRequest>({
-  current: 1,
-  pageSize: 12,
-  sortField: 'createTime',
-  sortOrder: 'descend',
-})
-
-// 分页参数
-const onPageChange = (page: number, pageSize: number) => {
-  searchParams.current = page
-  searchParams.pageSize = pageSize
-  fetchData()
-}
-// 获取数据
-const fetchData = async () => {
-  loading.value = true
-  const params = {
-    ...searchParams,
-    tags: [] as string[],
-    nullSpaceId: true,
-  }
-  if (selectedCategory.value !== 'all') {
-    params.category = selectedCategory.value
-  }
-  selectedTagList.value.forEach((useTag, index) => {
-    if (useTag) {
-      params.tags.push(tagList.value[index])
-    }
+// 编辑
+const doEdit = (picture: API.PictureVO, e: Event) => {
+  e.stopPropagation()
+  router.push({
+    path: '/add_picture',
+    query: {
+      id: picture.id,
+      spaceId: picture.spaceId,
+    },
   })
-  const res = await listPictureVoByPageUsingPost(params)
-  if (res.data.data) {
-    dataList.value = res.data.data.records ?? []
-    total.value = res.data.data.total ?? 0
-  } else {
-    message.error('获取数据失败，' + res.data.message)
-  }
-  loading.value = false
 }
 
+// 删除
+const doDelete = async (picture: API.PictureVO, e: Event) => {
+  e.stopPropagation()
+  const id = picture.id
+  if (!id) {
+    return
+  }
+  const res = await deletePictureUsingPost({ id })
+  if (res.data.code === 0) {
+    message.success('删除成功')
+    // 让外层刷新
+    props?.onReload?.()
+  } else {
+    message.error('删除失败')
+  }
+}
 
-// 页面加载时请求一次
-onMounted(() => {
-  getTagCategoryOptions()
-  fetchData()
-})
-
-// 页面被激活（返回、切回来）时重新加载
-onActivated(() => {
-  fetchData()
-})
+const doClickPicture = (picture: API.PictureVO) => {
+  router.push({
+    path: `/picture/${picture.id}`,
+  })
+}
 </script>
 
 <style scoped>
@@ -446,5 +370,30 @@ onActivated(() => {
 .tag {
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
+}
+
+/* === 卡片操作按钮 === */
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.card-actions .ant-space {
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.card-actions .ant-space:hover {
+  color: var(--color-primary);
+}
+
+.card-actions .ant-space:last-child:hover {
+  color: #ff4d4f;
 }
 </style>

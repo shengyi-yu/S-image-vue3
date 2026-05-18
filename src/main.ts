@@ -11,6 +11,13 @@ import '@/access'
 import { useThemeStore } from '@/stores/useThemeStore'
 
 const app = createApp(App)
+
+// 全局错误处理，防止单个组件报错拖垮整个应用
+app.config.errorHandler = (err, instance, info) => {
+  console.error('Vue 全局错误:', err)
+  console.error('错误信息:', info)
+}
+
 const pinia = createPinia()
 
 app.use(pinia)
