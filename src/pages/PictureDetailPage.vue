@@ -46,6 +46,24 @@
                 </a-tag>
               </div>
             </div>
+            <!-- AI 分析区块 -->
+            <div class="meta-row" v-if="picture.aiTags?.length">
+              <span class="meta-label">AI标签</span>
+              <div class="meta-tags">
+                <a-tag
+                  v-for="tag in picture.aiTags"
+                  :key="'ai-' + tag"
+                  color="purple"
+                  class="meta-tag"
+                >
+                  ✨ {{ tag }}
+                </a-tag>
+              </div>
+            </div>
+            <div class="ai-desc" v-if="picture.aiDescription">
+              <span class="meta-label">AI描述</span>
+              <p class="ai-desc-text">{{ picture.aiDescription }}</p>
+            </div>
           </div>
 
           <a-divider />
@@ -318,6 +336,21 @@ onMounted(() => {
 .meta-tag {
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
+}
+
+/* === AI 分析区块 === */
+.ai-desc {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.ai-desc-text {
+  margin: 0;
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
 }
 
 /* === 图片属性 === */

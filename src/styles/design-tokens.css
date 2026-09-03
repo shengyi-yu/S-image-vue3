@@ -250,32 +250,90 @@ a:hover {
 [data-theme="dark"] .ant-btn-primary {
   background: #61afef;
   border-color: #61afef;
+  color: #ffffff !important;
   box-shadow: 0 2px 8px rgba(97, 175, 239, 0.3);
 }
 
 [data-theme="dark"] .ant-btn-primary:hover {
   background: #79c0ff;
   border-color: #79c0ff;
+  color: #ffffff !important;
   box-shadow: 0 4px 12px rgba(97, 175, 239, 0.4);
+}
+
+/* 确保按钮内部的 span/div 不被全局规则覆盖 */
+[data-theme="dark"] .ant-btn-primary span,
+[data-theme="dark"] .ant-btn-primary div,
+[data-theme="dark"] .ant-btn-primary a {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-input-search-button span,
+[data-theme="dark"] .ant-input-search-button div {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-btn-dangerous span,
+[data-theme="dark"] .ant-btn-dangerous div {
+  color: #ff4d4f !important;
+}
+
+[data-theme="dark"] .ant-btn-link span,
+[data-theme="dark"] .ant-btn-link div {
+  color: #61afef !important;
+}
+
+[data-theme="dark"] .ant-btn-link:hover span,
+[data-theme="dark"] .ant-btn-link:hover div {
+  color: #79c0ff !important;
+}
+
+[data-theme="dark"] .ant-btn-background-ghost span,
+[data-theme="dark"] .ant-btn-background-ghost div {
+  color: #61afef !important;
+}
+
+[data-theme="dark"] .ant-btn-dangerous.ant-btn-primary span,
+[data-theme="dark"] .ant-btn-dangerous.ant-btn-primary div {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-btn-dangerous.ant-btn-default span,
+[data-theme="dark"] .ant-btn-dangerous.ant-btn-default div {
+  color: #ff4d4f !important;
 }
 
 [data-theme="dark"] .ant-btn-default {
   background: #2c313a;
   border-color: #3e4451;
-  color: #abb2bf;
+  color: #abb2bf !important;
 }
 
 [data-theme="dark"] .ant-btn-default:hover {
   border-color: #61afef;
-  color: #61afef;
+  color: #61afef !important;
 }
 
 [data-theme="dark"] .ant-btn-link {
-  color: #61afef;
+  color: #61afef !important;
 }
 
 [data-theme="dark"] .ant-btn-link:hover {
-  color: #79c0ff;
+  color: #79c0ff !important;
+}
+
+[data-theme="dark"] .ant-btn-dangerous {
+  color: #ff4d4f !important;
+}
+
+[data-theme="dark"] .ant-btn-dangerous:hover {
+  color: #ff7875 !important;
+}
+
+[data-theme="dark"] .ant-btn-background-ghost {
+  color: #61afef !important;
+  border-color: #61afef !important;
+  background: transparent !important;
 }
 
 /* --- 输入框 --- */
@@ -367,7 +425,50 @@ a:hover {
 [data-theme="dark"] .ant-tag {
   background: #3e4451;
   border-color: #3e4451;
-  color: #abb2bf;
+  color: #abb2bf !important;
+}
+
+/* 带颜色的 Tag 保持 Ant Design 默认文字色 */
+[data-theme="dark"] .ant-tag-blue {
+  color: #61afef !important;
+  background: rgba(97, 175, 239, 0.15) !important;
+  border-color: rgba(97, 175, 239, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-green {
+  color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.15) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-red {
+  color: #ff4d4f !important;
+  background: rgba(255, 77, 79, 0.15) !important;
+  border-color: rgba(255, 77, 79, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-orange {
+  color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-purple {
+  color: #c678dd !important;
+  background: rgba(198, 120, 221, 0.15) !important;
+  border-color: rgba(198, 120, 221, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-cyan {
+  color: #56d4dd !important;
+  background: rgba(86, 212, 221, 0.15) !important;
+  border-color: rgba(86, 212, 221, 0.3) !important;
+}
+
+[data-theme="dark"] .ant-tag-magenta {
+  color: #eb2f96 !important;
+  background: rgba(235, 47, 150, 0.15) !important;
+  border-color: rgba(235, 47, 150, 0.3) !important;
 }
 
 [data-theme="dark"] .ant-tag-checkable {
@@ -511,6 +612,237 @@ a:hover {
 [data-theme="dark"] p,
 [data-theme="dark"] span,
 [data-theme="dark"] div {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] label {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] a {
+  color: #61afef;
+}
+
+[data-theme="dark"] a:hover {
+  color: #79c0ff;
+}
+
+[data-theme="dark"] strong,
+[data-theme="dark"] b {
+  color: #e5e5e5;
+}
+
+[data-theme="dark"] code {
+  color: #e5c07b;
+  background: #2c313a;
+}
+
+[data-theme="dark"] pre {
+  background: #21252b;
+  color: #abb2bf;
+}
+
+[data-theme="dark"] blockquote {
+  color: #9da5b4;
+  border-left-color: #3e4451;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(97, 175, 239, 0.3);
+  color: #ffffff;
+}
+
+/* --- Ant Design Typography --- */
+[data-theme="dark"] .ant-typography {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-typography-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-typography-title-content {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .ant-typography-text-secondary {
+  color: #9da5b4;
+}
+
+[data-theme="dark"] .ant-typography-text code {
+  color: #e5c07b;
+  background: #2c313a;
+}
+
+/* --- Ant Design Modal --- */
+[data-theme="dark"] .ant-modal-content {
+  background: #282c34;
+}
+
+[data-theme="dark"] .ant-modal-header {
+  background: #282c34;
+  border-bottom-color: #3e4451;
+}
+
+[data-theme="dark"] .ant-modal-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-modal-close-x {
+  color: #636d83;
+}
+
+[data-theme="dark"] .ant-modal-footer {
+  border-top-color: #3e4451;
+}
+
+[data-theme="dark"] .ant-modal-confirm-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-modal-confirm-content {
+  color: #abb2bf !important;
+}
+
+/* --- Ant Design Alert --- */
+[data-theme="dark"] .ant-alert {
+  background: #2c313a;
+  border-color: #3e4451;
+}
+
+[data-theme="dark"] .ant-alert-message {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-alert-description {
+  color: #9da5b4;
+}
+
+[data-theme="dark"] .ant-alert-info {
+  background: rgba(97, 175, 239, 0.1);
+  border-color: rgba(97, 175, 239, 0.3);
+}
+
+[data-theme="dark"] .ant-alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="dark"] .ant-alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="dark"] .ant-alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* --- Ant Design Tooltip --- */
+[data-theme="dark"] .ant-tooltip-inner {
+  color: #e5e5e5;
+  background: #3e4451;
+}
+
+[data-theme="dark"] .ant-tooltip-arrow-content {
+  background: #3e4451;
+}
+
+/* --- Ant Design Popconfirm --- */
+[data-theme="dark"] .ant-popconfirm-message-title {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-popconfirm-description {
+  color: #9da5b4;
+}
+
+/* --- Ant Design Empty --- */
+[data-theme="dark"] .ant-empty-description {
+  color: #636d83;
+}
+
+/* --- Ant Design Result --- */
+[data-theme="dark"] .ant-result-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-result-subtitle {
+  color: #9da5b4;
+}
+
+[data-theme="dark"] .ant-result-content {
+  color: #abb2bf;
+}
+
+/* --- Ant Design Descriptions --- */
+[data-theme="dark"] .ant-descriptions-item-label {
+  color: #636d83 !important;
+  background: #21252b;
+}
+
+[data-theme="dark"] .ant-descriptions-item-content {
+  color: #abb2bf !important;
+  background: #282c34;
+}
+
+[data-theme="dark"] .ant-descriptions-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .ant-descriptions-view {
+  border-color: #3e4451;
+}
+
+[data-theme="dark"] .ant-descriptions-row {
+  border-bottom-color: #3e4451;
+}
+
+/* --- Ant Design Badge --- */
+[data-theme="dark"] .ant-badge-status-text {
+  color: #abb2bf;
+}
+
+/* --- Ant Design Switch --- */
+[data-theme="dark"] .ant-switch {
+  background: #3e4451;
+}
+
+/* --- Ant Design Checkbox & Radio --- */
+[data-theme="dark"] .ant-checkbox-wrapper {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-radio-wrapper {
+  color: #abb2bf;
+}
+
+/* --- Ant Design Message --- */
+[data-theme="dark"] .ant-message-notice-content {
+  background: #2c313a;
+  border: 1px solid #3e4451;
+}
+
+[data-theme="dark"] .ant-message-custom-content {
+  color: #abb2bf;
+}
+
+/* --- Ant Design Breadcrumb --- */
+[data-theme="dark"] .ant-breadcrumb-link,
+[data-theme="dark"] .ant-breadcrumb-separator {
+  color: #636d83;
+}
+
+[data-theme="dark"] .ant-breadcrumb-link a {
+  color: #9da5b4;
+}
+
+[data-theme="dark"] .ant-breadcrumb-link a:hover {
+  color: #61afef;
+}
+
+/* --- Ant Design Timeline --- */
+[data-theme="dark"] .ant-timeline-item-content {
   color: #abb2bf;
 }
 

@@ -37,6 +37,15 @@
                   <a-tag v-for="tag in picture.tags?.slice(0, 2)" :key="tag" class="tag">
                     {{ tag }}
                   </a-tag>
+                  <!-- AI 生成的标签 -->
+                  <a-tag
+                    v-for="tag in picture.aiTags?.slice(0, 2)"
+                    :key="'ai-' + tag"
+                    color="purple"
+                    class="tag ai-tag"
+                  >
+                    ✨ {{ tag }}
+                  </a-tag>
                 </div>
               </template>
             </a-card-meta>
@@ -58,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import { deletePictureUsingPost } from '@/api/pictureController'

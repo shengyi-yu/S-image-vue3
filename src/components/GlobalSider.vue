@@ -18,6 +18,7 @@ import {
   HomeOutlined,
   PictureOutlined,
   PlusOutlined,
+  RobotOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
 import { type MenuProps } from 'ant-design-vue'
@@ -37,6 +38,11 @@ const originItems = [
     key: '/my_space',
     icon: () => h(UserOutlined),
     label: '我的空间',
+  },
+  {
+    key: '/chat',
+    icon: () => h(RobotOutlined),
+    label: 'AI 助手',
   },
 ]
 

@@ -1,4 +1,9 @@
 declare namespace API {
+  type AiChatRequest = {
+    message?: string
+    threadId?: string
+  }
+
   type BaseResponseBoolean_ = {
     code?: number
     data?: boolean
@@ -92,6 +97,12 @@ declare namespace API {
   type BaseResponseString_ = {
     code?: number
     data?: string
+    message?: string
+  }
+
+  type BaseResponseUploadPictureResult_ = {
+    code?: number
+    data?: UploadPictureResult
     message?: string
   }
 
@@ -284,6 +295,8 @@ declare namespace API {
   }
 
   type PictureVO = {
+    aiDescription?: string
+    aiTags?: string[]
     category?: string
     createTime?: string
     editTime?: string
@@ -375,6 +388,17 @@ declare namespace API {
     filepath?: string
   }
 
+  type UploadPictureResult = {
+    picFormat?: string
+    picHeight?: number
+    picName?: string
+    picScale?: number
+    picSize?: number
+    picWidth?: number
+    thumbnailUrl?: string
+    url?: string
+  }
+
   type uploadPictureUsingPOSTParams = {
     fileUrl?: string
     id?: number
@@ -425,6 +449,12 @@ declare namespace API {
     checkPassword?: string
     userAccount?: string
     userPassword?: string
+  }
+
+  type UserUpdateMyRequest = {
+    userAvatar?: string
+    userName?: string
+    userProfile?: string
   }
 
   type UserUpdateRequest = {

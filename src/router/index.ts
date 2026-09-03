@@ -11,7 +11,9 @@ import AddPictureBatchPage from '@/pages/AddPictureBatchPage.vue'
 import SpaceManagePage from '@/pages/admin/spaceManagePage.vue'
 import AddSpacePage from '@/pages/AddSpacePage.vue'
 import MySpacePage from '@/pages/mySpacePage.vue'
+import UserProfilePage from '@/pages/user/UserProfilePage.vue'
 import SpaceDetailPage from '@/pages/SpaceDetailPage.vue'
+import ChatPage from '@/pages/ChatPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +37,11 @@ const router = createRouter({
       path: '/user/register',
       name: '用户注册',
       component: UserRegisterPage,
+    },
+    {
+      path: '/user/profile',
+      name: '个人中心',
+      component: UserProfilePage,
     },
     {
       path: '/admin/userManage',
@@ -90,6 +97,11 @@ const router = createRouter({
       path: '/add_picture/batch',
       name: '批量创建图片',
       component: AddPictureBatchPage,
+    },
+    {
+      path: '/chat',
+      name: 'AI助手',
+      component: ChatPage,
     },
   ],
 })

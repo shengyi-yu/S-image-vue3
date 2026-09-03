@@ -45,6 +45,12 @@
                 <template #overlay>
                   <a-menu class="user-dropdown">
                     <a-menu-item>
+                      <router-link to="/user/profile">
+                        <SettingOutlined />
+                        <span style="margin-left: 8px">个人中心</span>
+                      </router-link>
+                    </a-menu-item>
+                    <a-menu-item>
                       <router-link to="/my_space">
                         <UserOutlined />
                         <span style="margin-left: 8px">我的空间</span>
@@ -80,6 +86,7 @@ import {
   LogoutOutlined,
   PictureOutlined,
   PlusOutlined,
+  SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
 import { message, type MenuProps } from 'ant-design-vue'

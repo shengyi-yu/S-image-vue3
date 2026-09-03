@@ -86,4 +86,12 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
   margin-top: 8px;
   color: #666;
 }
+
+[data-theme="dark"] .ant-upload-select-picture-card i {
+  color: #abb2bf;
+}
+
+[data-theme="dark"] .ant-upload-select-picture-card .ant-upload-text {
+  color: #9da5b4;
+}
 </style>

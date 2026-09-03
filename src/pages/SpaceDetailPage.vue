@@ -39,7 +39,7 @@ import { getSpaceVoByIdUsingGet } from '@/api/spaceController'
 import { listPictureVoByPageUsingPost } from '@/api/pictureController'
 import { formatSize } from '@/utils'
 import { message } from 'ant-design-vue'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import PictureList from '@/components/PictureList.vue'
 
 const props = defineProps<{
